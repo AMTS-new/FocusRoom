@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusRoom — Study Together, Live</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ════════════════════ LANDING ════════════════════ -->
+<div id="page-landing" class="page active">
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
+  <nav class="nav">
+    <div class="nav-logo">Focus<span>Room</span></div>
+    <div class="nav-tagline">Study Together. Stay Focused.</div>
+  </nav>
+  <main class="landing-main">
+    <div class="landing-left">
+      <div class="badge">✦ Free · No signup · Works everywhere</div>
+      <h1 class="hero-title">Study together.<br/><span class="gradient-text">Live on canvas.</span></h1>
+      <p class="hero-sub">Create a room, share the code, draw on a live canvas together. Timer, chat, and live collaboration — everything built in.</p>
+      <div class="feature-pills">
+        <span class="pill">🎨 Live Canvas</span>
+        <span class="pill">⏱ Focus Timer</span>
+        <span class="pill">💬 Break Chat</span>
+        <span class="pill">🔥 Streaks</span>
+      </div>
+    </div>
+    <div class="landing-right">
+      <div class="glass-card">
+        <h2>Get Started</h2>
+        <p class="card-sub">No account needed.</p>
+        <div class="input-group">
+          <label>Your Name</label>
+          <input type="text" id="input-name" placeholder="e.g. Rahul" maxlength="20" autocomplete="off"/>
+        </div>
+        <div class="color-pick-row">
+          <label>Your Color</label>
+          <div class="color-options" id="color-options">
+            <div class="color-dot selected" data-color="#7c5cfc" style="background:#7c5cfc"></div>
+            <div class="color-dot" data-color="#fc5c7d" style="background:#fc5c7d"></div>
+            <div class="color-dot" data-color="#3effa0" style="background:#3effa0"></div>
+            <div class="color-dot" data-color="#ffc93c" style="background:#ffc93c"></div>
+            <div class="color-dot" data-color="#5ce1fc" style="background:#5ce1fc"></div>
+            <div class="color-dot" data-color="#ff8c42" style="background:#ff8c42"></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-create">✦ Create Room</button>
+          <span class="divider-text">or</span>
+          <button class="btn btn-outline" id="btn-join-toggle">Join Room</button>
+        </div>
+        <div class="join-section hidden" id="join-section">
+          <div class="input-group">
+            <label>Room Code</label>
+            <input type="text" id="input-room-code" placeholder="e.g. ABC123" maxlength="6"
+              style="text-transform:uppercase;letter-spacing:4px;" autocomplete="off"/>
+          </div>
+          <button class="btn btn-primary" id="btn-join" style="width:100%;margin-top:.5rem">→ Join Room</button>
+        </div>
+        <div id="landing-error" class="error-msg hidden"></div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-header">
+          <div class="preview-dot red"></div><div class="preview-dot yellow"></div><div class="preview-dot green"></div>
+          <span style="margin-left:8px;font-size:.75rem;color:var(--muted)">Live Canvas Preview</span>
+        </div>
+        <div class="preview-canvas">
+          <div class="preview-stroke s1"></div><div class="preview-stroke s2"></div><div class="preview-stroke s3"></div>
+          <div class="preview-note n1">📐 Maths notes</div>
+          <div class="preview-note n2">✅ Done!</div>
+          <div class="preview-user u1">R</div><div class="preview-user u2">P</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ════════════════════ ROOM ════════════════════ -->
+<div id="page-room" class="page hidden">
+
+  <header class="room-header">
+    <div class="room-header-left">
+      <div class="room-logo">Focus<span>Room</span></div>
+      <div class="room-code-badge">
+        <span id="display-room-code"></span>
+        <button class="copy-btn" id="btn-copy-code">⧉ Copy</button>
+      </div>
+    </div>
+    <div class="room-header-center">
+      <div class="timer-display" id="timer-display">25:00</div>
+      <div class="timer-status" id="timer-status">Focus Time</div>
+    </div>
+    <div class="room-header-right">
+      <div class="members-count-badge">👥 <span id="members-count">1</span> online</div>
+      <button class="icon-btn danger" id="btn-leave">✕ Leave</button>
+    </div>
+  </header>
+
+  <div class="room-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+      <div class="sidebar-block">
+        <div class="sidebar-title">👥 Members</div>
+        <div id="members-list" class="members-list"></div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">⏱ Session</div>
+        <div class="streak-card">
+          <div class="streak-number" id="streak-count">0</div>
+          <div class="streak-label">Sessions Today 🔥</div>
+        </div>
+        <div id="timer-controls">
+          <div class="timer-btn-row">
+            <button class="btn btn-sm btn-primary" id="btn-start-timer">▶ Start</button>
+            <button class="btn btn-sm btn-outline" id="btn-reset-timer">↺ Reset</button>
+          </div>
+        </div>
+        <div id="timer-viewer-msg" class="timer-viewer-msg hidden">
+          🔒 Only creator controls timer
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-title">🛠 Tools</div>
+        <div class="tool-row">
+          <button class="tool-btn active" id="tool-pen">✏️ Pen</button>
+          <button class="tool-btn" id="tool-eraser">⬜ Erase</button>
+        </div>
+        <div class="tool-row top-gap">
+          <button class="tool-btn" id="tool-text">T Text</button>
+          <button class="tool-btn tool-danger" id="tool-clear">🗑 Clear</button>
+          </div>
+          <div class="tool-row top-gap">
+          <button class="tool-btn" id="btn-undo" title="Undo (Ctrl+Z)">↩ Undo</button>
+          <button class="tool-btn" id="btn-redo" title="Redo (Ctrl+Y)">↪ Redo</button>
+        </div>
+        <div class="brush-row">
+          <label class="brush-label">Size: <span id="brush-size-label">4</span></label>
+          <input type="range" id="brush-size" min="2" max="30" value="4" class="brush-slider"/>
+        </div>
+        <div class="color-section-label">Draw Color</div>
+        <div class="color-options small" id="canvas-color-options">
+          <div class="color-dot selected" id="own-color-dot" data-color="own" title="Your color"></div>
+          <div class="color-dot" data-color="#ffffff" style="background:#fff" title="White"></div>
+          <div class="color-dot" data-color="#ffc93c" style="background:#ffc93c" title="Yellow"></div>
+          <div class="color-dot" data-color="#3effa0" style="background:#3effa0" title="Green"></div>
+          <div class="color-dot" data-color="#fc5c7d" style="background:#fc5c7d" title="Pink"></div>
+          <div class="color-dot" data-color="#5ce1fc" style="background:#5ce1fc" title="Cyan"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CANVAS -->
+    <main class="canvas-area" id="canvas-area">
+      <div class="canvas-wrapper" id="canvas-wrapper">
+        <canvas id="main-canvas"></canvas>
+      </div>
+      <div id="text-overlay" class="text-overlay hidden">
+        <input type="text" id="text-input" placeholder="Type → Enter to place" autocomplete="off"/>
+      </div>
+      <div id="break-overlay" class="break-overlay hidden">
+        <div class="break-content">
+          <div class="break-emoji">☕</div>
+          <h2>Break Time!</h2>
+          <p>Great work! 5 minute break.</p>
+          <div class="break-timer" id="break-timer">05:00</div>
+          <button class="btn btn-sm btn-outline" id="btn-skip-break" style="margin-top:1.2rem">Skip Break →</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- CHAT -->
+    <aside class="sidebar-right">
+      <div class="sidebar-block chat-block">
+        <div class="sidebar-title">
+          💬 Break Chat
+          <span class="chat-lock-badge" id="chat-lock">🔒</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-hint">Chat unlocks during break ☕</div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Locked during focus..." maxlength="200" disabled autocomplete="off"/>
+          <button id="btn-send-chat" disabled>→</button>
+        </div>
+      </div>
+    </aside>
+
+  </div><!-- end room-layout -->
+
+</div><!-- end page-room -->
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
